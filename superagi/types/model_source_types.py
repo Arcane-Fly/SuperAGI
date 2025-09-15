@@ -8,6 +8,8 @@ class ModelSourceType(Enum):
     HuggingFace = 'Hugging Face'
     LocalLLM = 'Local LLM'
     Anthropic = 'Anthropic'  # Added support for Anthropic Claude models
+    Grok = 'Grok'  # xAI's Grok conversational AI models
+    Groq = 'Groq'  # Hardware-accelerated inference provider
 
     @classmethod
     def get_model_source_type(cls, name):
@@ -60,6 +62,17 @@ class ModelSourceType(Enum):
             # Claude 2 series (legacy)
             'claude-2.1', 'claude-2.0', 'claude-instant-1.2'
         ]
+        # xAI Grok models
+        grok_models = [
+            'grok-beta', 'grok-1'
+        ]
+        # Groq hardware-accelerated models
+        groq_models = [
+            # Llama models on Groq
+            'llama-3.1-70b-versatile', 'llama-3.1-8b-instant', 'llama-3-70b-8192', 'llama-3-8b-8192',
+            # Mixtral models on Groq
+            'mixtral-8x7b-32768', 'gemma-7b-it'
+        ]
         if model_name in open_ai_models:
             return ModelSourceType.OpenAI
         if model_name in google_models:
@@ -68,6 +81,10 @@ class ModelSourceType(Enum):
             return ModelSourceType.Replicate
         if model_name in anthropic_models:
             return ModelSourceType.Anthropic
+        if model_name in grok_models:
+            return ModelSourceType.Grok
+        if model_name in groq_models:
+            return ModelSourceType.Groq
         return ModelSourceType.OpenAI
 
     def __str__(self):
