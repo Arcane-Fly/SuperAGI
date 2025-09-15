@@ -140,8 +140,13 @@ class OpenAi(BaseLlm):
             models = [model["id"] for model in models["data"]]
             # Updated model list to include latest GPT-4 and GPT-3.5 variants as of 2024
             models_supported = [
+                # GPT-4 models
                 'gpt-4', 'gpt-4-32k', 'gpt-4-0125-preview', 'gpt-4-1106-preview', 
-                'gpt-4-turbo', 'gpt-4-turbo-preview', 'gpt-4o', 'gpt-4o-mini',
+                'gpt-4-turbo', 'gpt-4-turbo-2024-04-09', 'gpt-4-turbo-preview', 
+                'gpt-4o', 'gpt-4o-2024-08-06', 'gpt-4o-mini', 'gpt-4o-mini-2024-07-18',
+                # New reasoning models
+                'o1-preview', 'o1-mini',
+                # GPT-3.5 models
                 'gpt-3.5-turbo', 'gpt-3.5-turbo-16k', 'gpt-3.5-turbo-0125', 
                 'gpt-3.5-turbo-1106', 'gpt-3.5-turbo-instruct'
             ]
