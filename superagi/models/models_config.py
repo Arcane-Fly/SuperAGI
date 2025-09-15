@@ -100,7 +100,22 @@ class ModelsConfig(DBBaseModel):
 
     @classmethod
     def storeGptModels(cls, session, organisation_id, model_provider_id, model_api_key):
-        default_models = {"gpt-3.5-turbo": 4032, "gpt-4": 8092, "gpt-3.5-turbo-16k": 16184}
+        # Updated default models with latest GPT models and their token limits as of 2024
+        default_models = {
+            "gpt-3.5-turbo": 4096, 
+            "gpt-3.5-turbo-16k": 16384,
+            "gpt-3.5-turbo-0125": 16385,
+            "gpt-3.5-turbo-1106": 16385,
+            "gpt-3.5-turbo-instruct": 4096,
+            "gpt-4": 8192, 
+            "gpt-4-32k": 32768,
+            "gpt-4-0125-preview": 128000,
+            "gpt-4-1106-preview": 128000,
+            "gpt-4-turbo": 128000,
+            "gpt-4-turbo-preview": 128000,
+            "gpt-4o": 128000,
+            "gpt-4o-mini": 128000
+        }
         models = OpenAi(api_key=model_api_key).get_models()
         installed_models = [model[0] for model in session.query(Models.model_name).filter(Models.org_id == organisation_id).all()]
         for model in models:
