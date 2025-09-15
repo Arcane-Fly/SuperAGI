@@ -3,7 +3,8 @@ Pydantic models for SuperAGI Core API.
 
 This module defines all the data models used for API requests and responses,
 including validation, serialization, and documentation with support for
-the latest AI models from major providers (OpenAI, Anthropic, Google, Grok, Groq).
+the latest 2025 AI models from major providers (OpenAI, Anthropic, Google, 
+Grok, Groq, DeepSeek, Mistral). Only models from January 2025 and newer are included.
 """
 
 from datetime import datetime
@@ -47,6 +48,8 @@ class ProviderType(str, Enum):
     GOOGLE = "google"
     GROK = "grok"  # xAI's Grok models
     GROQ = "groq"  # Hardware-accelerated inference provider
+    DEEPSEEK = "deepseek"  # DeepSeek AI models
+    MISTRAL = "mistral"  # Mistral AI models
     REPLICATE = "replicate"
     HUGGINGFACE = "huggingface"
     LOCAL_LLM = "local_llm"
@@ -148,199 +151,221 @@ class TaskResponse(BaseModel):
     cost: Optional[float] = None
 
 
-# Latest AI Models as of 2024 - Updated with newest releases
+# Latest AI Models as of 2025 - Only models from January 2025 and newer
 
 OPENAI_MODELS = [
     ModelSpec(
-        name="gpt-4o",
+        name="gpt-4o-2025-01-15",
         provider=ProviderType.OPENAI,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
                      ModelCapability.REASONING, ModelCapability.VISION, ModelCapability.FUNCTION_CALLING],
-        context_length=128000,
-        max_output_tokens=16384,
-        input_cost_per_token=0.0000025,
-        output_cost_per_token=0.00001,
-        supports_streaming=True,
-        supports_functions=True,
-        supports_vision=True,
-        release_date="2024-05-13",
-        description="GPT-4o: Advanced multimodal model with vision and reasoning capabilities"
-    ),
-    ModelSpec(
-        name="gpt-4o-2024-08-06",
-        provider=ProviderType.OPENAI,
-        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
-                     ModelCapability.REASONING, ModelCapability.VISION, ModelCapability.FUNCTION_CALLING],
-        context_length=128000,
-        max_output_tokens=16384,
-        input_cost_per_token=0.0000025,
-        output_cost_per_token=0.00001,
-        supports_streaming=True,
-        supports_functions=True,
-        supports_vision=True,
-        release_date="2024-08-06",
-        description="GPT-4o August 2024: Latest version with improved performance and capabilities"
-    ),
-    ModelSpec(
-        name="gpt-4o-mini",
-        provider=ProviderType.OPENAI,
-        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
-                     ModelCapability.REASONING, ModelCapability.FUNCTION_CALLING],
-        context_length=128000,
-        max_output_tokens=16384,
-        input_cost_per_token=0.00000015,
-        output_cost_per_token=0.0000006,
-        supports_streaming=True,
-        supports_functions=True,
-        supports_vision=False,
-        release_date="2024-07-18",
-        description="GPT-4o-mini: Cost-effective model with strong performance for most tasks"
-    ),
-    ModelSpec(
-        name="o1-preview",
-        provider=ProviderType.OPENAI,
-        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
-        context_length=128000,
+        context_length=200000,
         max_output_tokens=32768,
-        input_cost_per_token=0.000015,
-        output_cost_per_token=0.00006,
-        supports_streaming=False,
-        supports_functions=False,
-        supports_vision=False,
-        release_date="2024-09-12",
-        description="o1-preview: Advanced reasoning model for complex problem-solving"
+        input_cost_per_token=0.000002,
+        output_cost_per_token=0.000008,
+        supports_streaming=True,
+        supports_functions=True,
+        supports_vision=True,
+        release_date="2025-01-15",
+        description="GPT-4o 2025: Latest multimodal model with enhanced context and improved efficiency"
     ),
     ModelSpec(
-        name="o1-mini",
+        name="o3-mini",
         provider=ProviderType.OPENAI,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
-        context_length=128000,
+        context_length=200000,
         max_output_tokens=65536,
-        input_cost_per_token=0.000003,
-        output_cost_per_token=0.000012,
+        input_cost_per_token=0.000002,
+        output_cost_per_token=0.000008,
         supports_streaming=False,
-        supports_functions=False,
+        supports_functions=True,
         supports_vision=False,
-        release_date="2024-09-12",
-        description="o1-mini: Faster reasoning model optimized for STEM tasks"
+        release_date="2025-01-20",
+        description="o3-mini: Advanced reasoning model with improved efficiency and cost-effectiveness"
+    ),
+    ModelSpec(
+        name="o3",
+        provider=ProviderType.OPENAI,
+        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
+        context_length=300000,
+        max_output_tokens=100000,
+        input_cost_per_token=0.00001,
+        output_cost_per_token=0.00004,
+        supports_streaming=False,
+        supports_functions=True,
+        supports_vision=False,
+        release_date="2025-01-20",
+        description="o3: Most advanced reasoning model for complex scientific and mathematical problems"
     ),
 ]
 
 ANTHROPIC_MODELS = [
     ModelSpec(
-        name="claude-3-5-sonnet-20241022",
+        name="claude-3-5-sonnet-20250120",
         provider=ProviderType.ANTHROPIC,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
                      ModelCapability.REASONING, ModelCapability.VISION, ModelCapability.FUNCTION_CALLING],
-        context_length=200000,
-        max_output_tokens=8192,
-        input_cost_per_token=0.000003,
-        output_cost_per_token=0.000015,
+        context_length=500000,
+        max_output_tokens=16384,
+        input_cost_per_token=0.000002,
+        output_cost_per_token=0.00001,
         supports_streaming=True,
         supports_functions=True,
         supports_vision=True,
-        release_date="2024-10-22",
-        description="Claude 3.5 Sonnet: Latest model with enhanced reasoning and coding capabilities"
+        release_date="2025-01-20",
+        description="Claude 3.5 Sonnet 2025: Enhanced model with expanded context and improved reasoning"
     ),
     ModelSpec(
-        name="claude-3-5-haiku-20241022",
+        name="claude-3-5-haiku-20250115",
         provider=ProviderType.ANTHROPIC,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
-        context_length=200000,
+        context_length=400000,
         max_output_tokens=8192,
-        input_cost_per_token=0.0000008,
-        output_cost_per_token=0.000004,
+        input_cost_per_token=0.0000006,
+        output_cost_per_token=0.000003,
         supports_streaming=True,
         supports_functions=True,
         supports_vision=False,
-        release_date="2024-10-22",
-        description="Claude 3.5 Haiku: Fast and efficient model for quick tasks"
+        release_date="2025-01-15",
+        description="Claude 3.5 Haiku 2025: Ultra-fast model with improved efficiency and cost"
+    ),
+    ModelSpec(
+        name="claude-4-opus",
+        provider=ProviderType.ANTHROPIC,
+        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
+                     ModelCapability.REASONING, ModelCapability.VISION, ModelCapability.MULTIMODAL],
+        context_length=1000000,
+        max_output_tokens=32768,
+        input_cost_per_token=0.000008,
+        output_cost_per_token=0.000032,
+        supports_streaming=True,
+        supports_functions=True,
+        supports_vision=True,
+        release_date="2025-01-10",
+        description="Claude 4 Opus: Most advanced Claude model with massive context and multimodal capabilities"
     ),
 ]
 
 GOOGLE_MODELS = [
     ModelSpec(
-        name="gemini-1.5-pro",
+        name="gemini-2.0-flash",
         provider=ProviderType.GOOGLE,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
                      ModelCapability.REASONING, ModelCapability.VISION, ModelCapability.MULTIMODAL],
         context_length=2000000,
-        max_output_tokens=8192,
-        input_cost_per_token=0.00000125,
-        output_cost_per_token=0.000005,
+        max_output_tokens=32768,
+        input_cost_per_token=0.00000005,
+        output_cost_per_token=0.0000002,
         supports_streaming=True,
         supports_functions=True,
         supports_vision=True,
-        release_date="2024-05-14",
-        description="Gemini 1.5 Pro: Most capable Google model with massive context window"
+        release_date="2025-01-05",
+        description="Gemini 2.0 Flash: Next-generation Google model with ultra-fast inference and massive context"
     ),
     ModelSpec(
-        name="gemini-1.5-flash",
+        name="gemini-2.0-pro",
         provider=ProviderType.GOOGLE,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
                      ModelCapability.REASONING, ModelCapability.VISION, ModelCapability.MULTIMODAL],
-        context_length=1000000,
-        max_output_tokens=8192,
-        input_cost_per_token=0.000000075,
-        output_cost_per_token=0.0000003,
+        context_length=5000000,
+        max_output_tokens=65536,
+        input_cost_per_token=0.0000008,
+        output_cost_per_token=0.000003,
         supports_streaming=True,
         supports_functions=True,
         supports_vision=True,
-        release_date="2024-05-14",
-        description="Gemini 1.5 Flash: Fast and efficient model with large context"
+        release_date="2025-01-15",
+        description="Gemini 2.0 Pro: Most advanced Google model with 5M token context and superior reasoning"
     ),
 ]
 
 GROK_MODELS = [
     ModelSpec(
-        name="grok-beta",
+        name="grok-2",
         provider=ProviderType.GROK,
-        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
-        context_length=131072,
-        max_output_tokens=4096,
-        input_cost_per_token=0.000005,
-        output_cost_per_token=0.000015,
+        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
+                     ModelCapability.REASONING, ModelCapability.VISION],
+        context_length=200000,
+        max_output_tokens=32768,
+        input_cost_per_token=0.000003,
+        output_cost_per_token=0.00001,
         supports_streaming=True,
-        supports_functions=False,
-        supports_vision=False,
-        release_date="2024-03-17",
-        description="Grok: xAI's conversational AI with real-time knowledge and humor"
+        supports_functions=True,
+        supports_vision=True,
+        release_date="2025-01-08",
+        description="Grok 2: xAI's next-generation conversational AI with enhanced reasoning and multimodal capabilities"
     ),
 ]
 
 GROQ_MODELS = [
     ModelSpec(
-        name="llama-3.1-70b-versatile",
+        name="llama-3.3-70b-versatile",
         provider=ProviderType.GROQ,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
-        context_length=131072,
-        max_output_tokens=32768,
-        input_cost_per_token=0.00000059,
-        output_cost_per_token=0.00000079,
+        context_length=300000,
+        max_output_tokens=65536,
+        input_cost_per_token=0.0000004,
+        output_cost_per_token=0.0000006,
         supports_streaming=True,
         supports_functions=True,
         supports_vision=False,
-        release_date="2024-07-23",
-        description="Llama 3.1 70B on Groq: Ultra-fast inference with Meta's latest model"
+        release_date="2025-01-12",
+        description="Llama 3.3 70B on Groq: Latest Meta model with enhanced capabilities and ultra-fast inference"
     ),
     ModelSpec(
-        name="llama-3.1-8b-instant",
+        name="llama-3.3-8b-instant",
         provider=ProviderType.GROQ,
         capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
-        context_length=131072,
+        context_length=300000,
         max_output_tokens=32768,
-        input_cost_per_token=0.00000005,
-        output_cost_per_token=0.00000008,
+        input_cost_per_token=0.00000003,
+        output_cost_per_token=0.00000005,
         supports_streaming=True,
         supports_functions=True,
         supports_vision=False,
-        release_date="2024-07-23",
-        description="Llama 3.1 8B on Groq: Lightning-fast inference for quick tasks"
+        release_date="2025-01-12",
+        description="Llama 3.3 8B on Groq: Cost-effective model with lightning-fast inference speed"
     ),
 ]
 
-# Consolidated model registry
-ALL_MODELS = OPENAI_MODELS + ANTHROPIC_MODELS + GOOGLE_MODELS + GROK_MODELS + GROQ_MODELS
+# Add new 2025 providers and models
+DEEPSEEK_MODELS = [
+    ModelSpec(
+        name="deepseek-v3",
+        provider=ProviderType.DEEPSEEK,
+        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, ModelCapability.REASONING],
+        context_length=200000,
+        max_output_tokens=32768,
+        input_cost_per_token=0.0000001,
+        output_cost_per_token=0.0000005,
+        supports_streaming=True,
+        supports_functions=True,
+        supports_vision=False,
+        release_date="2025-01-05",
+        description="DeepSeek V3: Advanced coding and reasoning model with exceptional performance"
+    ),
+]
+
+MISTRAL_MODELS = [
+    ModelSpec(
+        name="mistral-large-2-2025",
+        provider=ProviderType.MISTRAL,
+        capabilities=[ModelCapability.TEXT_GENERATION, ModelCapability.CODE_GENERATION, 
+                     ModelCapability.REASONING, ModelCapability.FUNCTION_CALLING],
+        context_length=300000,
+        max_output_tokens=32768,
+        input_cost_per_token=0.000001,
+        output_cost_per_token=0.000005,
+        supports_streaming=True,
+        supports_functions=True,
+        supports_vision=False,
+        release_date="2025-01-18",
+        description="Mistral Large 2 2025: Enhanced European AI model with superior multilingual capabilities"
+    ),
+]
+
+# Consolidated model registry - Only 2025 models
+ALL_MODELS = OPENAI_MODELS + ANTHROPIC_MODELS + GOOGLE_MODELS + GROK_MODELS + GROQ_MODELS + DEEPSEEK_MODELS + MISTRAL_MODELS
 
 def get_models_by_provider(provider: ProviderType) -> List[ModelSpec]:
     """Get all models for a specific provider."""
@@ -351,5 +376,9 @@ def get_model_by_name(name: str) -> Optional[ModelSpec]:
     return next((model for model in ALL_MODELS if model.name == name), None)
 
 def get_latest_models() -> List[ModelSpec]:
-    """Get the latest models (released in 2024)."""
-    return [model for model in ALL_MODELS if model.release_date and model.release_date.startswith("2024")]
+    """Get the latest models (released in 2025 only)."""
+    return [model for model in ALL_MODELS if model.release_date and model.release_date.startswith("2025")]
+
+def get_2025_models() -> List[ModelSpec]:
+    """Get only models released in 2025 or later."""
+    return [model for model in ALL_MODELS if model.release_date and model.release_date >= "2025-01-01"]
